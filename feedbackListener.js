@@ -1,11 +1,11 @@
 (() => {
-  console.log("✅ feedbackListener.js loaded!");
+  console.log("feedbackListener.js loaded!");
 
   const observer = new MutationObserver(() => {
     const resultPanel = document.querySelector('[data-cy="result-status"]');
 
     if (resultPanel) {
-      console.log("📍 Result detected:", resultPanel.innerText);
+      console.log("Result detected:", resultPanel.innerText);
 
       const resultText = resultPanel.innerText.toLowerCase();
 
@@ -18,7 +18,7 @@
         if (window.lastPromptTime && Date.now() - window.lastPromptTime < 10000) return;
         window.lastPromptTime = Date.now();
 
-        if (confirm("❌ Test failed. Want AI help?")) {
+        if (confirm("Test failed. Want AI help?")) {
           const title = document.querySelector('div[data-cy="question-title"]')?.innerText?.trim();
           const editorLines = document.querySelectorAll(".view-lines .view-line");
           const code = Array.from(editorLines).map(line => line.textContent).join("\n");
@@ -27,7 +27,7 @@
             title, code, url: window.location.href, timestamp: new Date().toISOString(),
           }));
 
-          alert("✅ Failure captured!");
+          alert("Failure captured!");
         }
       }
     }
