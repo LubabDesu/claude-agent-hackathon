@@ -8,6 +8,13 @@
     "service_worker": "background.js"
   },
   "host_permissions": ["https://leetcode.com/problems/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://leetcode.com/problems/*"],
+      "js": ["feedbackListener.js"],
+      "run_at": "document_idle"
+    }
+  ]
   "action": {
     "default_popup": "popup.html",
     "default_title": "LeetCode Scraper"
