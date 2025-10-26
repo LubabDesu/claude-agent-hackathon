@@ -46,3 +46,5 @@ def quick_rules(req: AnalyzeRequest) -> Optional[AnalyzeResponse]:
             20,
         )
     
+    
+    
