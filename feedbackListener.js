@@ -1,48 +1,38 @@
-// feedbackListener.js
 (() => {
-  console.log("🧠 Feedback listener initialized...");
+  console.log("✅ feedbackListener.js loaded!");
 
-  // Observe DOM changes (LeetCode updates the result dynamically)
   const observer = new MutationObserver(() => {
     const resultPanel = document.querySelector('[data-cy="result-status"]');
-    if (!resultPanel) return;
 
-    const resultText = resultPanel.innerText?.toLowerCase();
+    if (resultPanel) {
+      console.log("📍 Result detected:", resultPanel.innerText);
 
-    if (
-      resultText.includes("wrong answer") ||
-      resultText.includes("runtime error") ||
-      resultText.includes("time limit") ||
-      resultText.includes("compile error")
-    ) {
-      // Avoid triggering multiple times for the same result
-      if (window.lastPromptTime && Date.now() - window.lastPromptTime < 10000) return;
-      window.lastPromptTime = Date.now();
+      const resultText = resultPanel.innerText.toLowerCase();
 
-      const wantHelp = confirm("❌ Test case failed. Would you like AI help debugging this?");
-      if (wantHelp) {
-        // Store the current code and problem info for later analysis
-        const title = document.querySelector('div[data-cy="question-title"]')?.innerText?.trim();
-        const editorLines = document.querySelectorAll(".view-lines .view-line");
-        const code = Array.from(editorLines).map(line => line.textContent).join("\n");
+      if (
+        resultText.includes("wrong answer") ||
+        resultText.includes("runtime error") ||
+        resultText.includes("time limit") ||
+        resultText.includes("compile error")
+      ) {
+        if (window.lastPromptTime && Date.now() - window.lastPromptTime < 10000) return;
+        window.lastPromptTime = Date.now();
 
-        const failureData = {
-          title,
-          code,
-          timestamp: new Date().toISOString(),
-          url: window.location.href,
-        };
+        if (confirm("❌ Test failed. Want AI help?")) {
+          const title = document.querySelector('div[data-cy="question-title"]')?.innerText?.trim();
+          const editorLines = document.querySelectorAll(".view-lines .view-line");
+          const code = Array.from(editorLines).map(line => line.textContent).join("\n");
 
-        localStorage.setItem("latestFailure", JSON.stringify(failureData));
+          localStorage.setItem("latestFailure", JSON.stringify({
+            title, code, url: window.location.href, timestamp: new Date().toISOString(),
+          }));
 
-        alert("🧩 Got it! Your failed attempt was saved. The AI agent will help you shortly.");
-        // (Later: send this data to your AI analysis logic)
+          alert("✅ Failure captured!");
+        }
       }
     }
   });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
+  observer.observe(document.body, { childList: true, subtree: true });
+  console.log("🔍 MutationObserver attached");
 })();
