@@ -1,12 +1,14 @@
 document.getElementById("refresh").addEventListener("click", fetchProblem);
-document.addEventListener("DOMContentLoaded", fetchProblem);
+document.addEventListener("DOMContentLoaded", async () => {
+  fetchProblem();
 
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === "leetcode_failure") {
-    const helpBanner = document.getElementById("help-banner");
-    helpBanner.textContent = "❌ Test failed! Want AI help?";
-    helpBanner.style.display = "block";
-  }
+  chrome.storage.local.get("latestFailure", ({ latestFailure }) => {
+    if (latestFailure) {
+      const helpBanner = document.getElementById("help-banner");
+      helpBanner.textContent = `❌ Your last attempt failed for: ${latestFailure.title}. Want AI help?`;
+      helpBanner.style.display = "block";
+    }
+  });
 });
 
 async function fetchProblem() {
@@ -19,7 +21,6 @@ async function fetchProblem() {
   codeEl.textContent = "";
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
   if (!tab.url.includes("leetcode.com/problems/")) {
     titleEl.textContent = "❌ Not on a LeetCode problem page.";
     return;
@@ -32,6 +33,7 @@ async function fetchProblem() {
         document.querySelector('div[data-cy="question-title"]')?.innerText ||
         document.querySelector("div.text-title-large")?.innerText ||
         document.querySelector("h1")?.innerText;
+
       if (title) title = title.trim().replace(/^#?\d+\.\s*/, "");
 
       let description = "";
@@ -67,13 +69,10 @@ async function fetchProblem() {
   });
 
   const { title, description, code } = results[0].result || {};
-
   if (title) {
     titleEl.textContent = title;
-    descEl.textContent =
-      description?.slice(0, 200) + (description?.length > 200 ? "..." : "");
-    codeEl.textContent =
-      code?.slice(0, 400) + (code?.length > 400 ? "\n... (truncated)" : "");
+    descEl.textContent = description?.slice(0, 200) + (description?.length > 200 ? "..." : "");
+    codeEl.textContent = code?.slice(0, 400) + (code?.length > 400 ? "\n... (truncated)" : "");
   } else {
     titleEl.textContent = "⚠️ Could not find problem info.";
   }
