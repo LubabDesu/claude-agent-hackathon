@@ -2,13 +2,14 @@
   "manifest_version": 3,
   "name": "LeetCode Problem Scraper",
   "version": "1.0",
-  "description": "Automatically scrapes LeetCode problems and code periodically.",
-  "permissions": ["tabs", "scripting", "storage"],
+  "description": "Scrapes and displays LeetCode problem info.",
+  "permissions": ["scripting", "activeTab", "tabs"],
   "background": {
     "service_worker": "background.js"
   },
   "host_permissions": ["https://leetcode.com/problems/*"],
   "action": {
-    "default_title": "LeetCode Scraper Active"
+    "default_popup": "popup.html",
+    "default_title": "LeetCode Scraper"
   }
 }
