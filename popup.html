@@ -1,79 +1,79 @@
-document.getElementById("refresh").addEventListener("click", fetchProblem);
-document.addEventListener("DOMContentLoaded", async () => {
-  fetchProblem();
-
-  chrome.storage.local.get("latestFailure", ({ latestFailure }) => {
-    if (latestFailure) {
-      const helpBanner = document.getElementById("help-banner");
-      helpBanner.textContent = `❌ Your last attempt failed for: ${latestFailure.title}. Want AI help?`;
-      helpBanner.style.display = "block";
-    }
-  });
-});
-
-async function fetchProblem() {
-  const titleEl = document.getElementById("title");
-  const descEl = document.getElementById("description");
-  const codeEl = document.getElementById("code");
-
-  titleEl.textContent = "Fetching...";
-  descEl.textContent = "";
-  codeEl.textContent = "";
-
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab.url.includes("leetcode.com/problems/")) {
-    titleEl.textContent = "❌ Not on a LeetCode problem page.";
-    return;
-  }
-
-  const results = await chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    func: () => {
-      let title =
-        document.querySelector('div[data-cy="question-title"]')?.innerText ||
-        document.querySelector("div.text-title-large")?.innerText ||
-        document.querySelector("h1")?.innerText;
-
-      if (title) title = title.trim().replace(/^#?\d+\.\s*/, "");
-
-      let description = "";
-      const descCandidates = [
-        document.querySelector('[data-key="description-content"]'),
-        document.querySelector(".elfjS"),
-        document.querySelector(".question-content__JfgR"),
-        document.querySelector(".content__u3I1"),
-        document.querySelector("div[class*='question-content']"),
-      ];
-      for (const el of descCandidates) {
-        if (el?.innerText?.length > description.length) {
-          description = el.innerText.trim();
-        }
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeetCode Scraper</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 1rem;
+        width: 320px;
       }
-
-      let code = "";
-      const textAreas = document.querySelectorAll("textarea");
-      for (const ta of textAreas) {
-        if (ta.closest(".monaco-editor")) {
-          code = ta.value;
-          break;
-        }
+      #help-banner {
+        display: none;
+        background: #fee2e2;
+        color: #b91c1c;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
       }
-
-      if (!code) {
-        const editor = document.querySelector("[data-mode-id]");
-        if (editor) code = editor.innerText || "";
+      button {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        width: 100%;
+        margin-bottom: 10px;
       }
+      button:hover {
+        background: #1d4ed8;
+      }
+      h1 {
+        font-size: 1.3rem;
+        text-align: center;
+      }
+      #title {
+        font-weight: bold;
+        margin-top: 10px;
+        text-align: center;
+      }
+      #description {
+        background: #f3f4f6;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        font-size: 0.9rem;
+        max-height: 120px;
+        overflow-y: auto;
+      }
+      pre {
+        background: #111827;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        font-size: 0.85rem;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="help-banner"></div>
 
-      return { title, description, code };
-    },
-  });
+    <h1>LeetCode Scraper</h1>
 
-  const { title, description, code } = results[0].result || {};
-  if (title) {
-    titleEl.textContent = title;
-    descEl.textContent = description?.slice(0, 200) + (description?.length > 200 ? "..." : "");
-    codeEl.textContent = code?.slice(0, 400) + (code?.length > 400 ? "\n... (truncated)" : "");
-  } else {
-    titleEl.textContent = "⚠️ Could not find problem info.";
-  }
-}
+    <button id="refresh">🔄 Refresh</button>
+
+    <div id="title"></div>
+    <div id="description"></div>
+    <pre id="code"></pre>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
