@@ -1,28 +1,80 @@
-// DOM elements
-const banner = document.getElementById('failureBanner');
-const bannerText = document.getElementById('failureBannerText');
+document.getElementById("refresh").addEventListener("click", fetchProblem);
+document.addEventListener("DOMContentLoaded", fetchProblem);
 
-// Show banner function
-function showBanner({ title, status }) {
-  bannerText.innerHTML = `❌ Last Failure: <strong>${title}</strong> — ${status}`;
-  banner.style.display = 'block';
+async function fetchProblem() {
+  const titleEl = document.getElementById("title");
+  const descEl = document.getElementById("description");
+  const codeEl = document.getElementById("code");
+
+  titleEl.textContent = "Fetching...";
+  descEl.textContent = "";
+  codeEl.textContent = "";
+
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+  if (!tab.url.includes("leetcode.com/problems/")) {
+    titleEl.textContent = "❌ Not on a LeetCode problem page.";
+    return;
+  }
+
+  const results = await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    func: () => {
+      // 🧩 --- SCRAPE TITLE ---
+      let title =
+        document.querySelector('div[data-cy="question-title"]')?.innerText ||
+        document.querySelector("div.text-title-large")?.innerText ||
+        document.querySelector("h1")?.innerText;
+      if (title) title = title.trim().replace(/^#?\d+\.\s*/, "");
+
+      // 🧩 --- SCRAPE DESCRIPTION ---
+      let description = "";
+      const descCandidates = [
+        document.querySelector('[data-key="description-content"]'),
+        document.querySelector(".elfjS"),
+        document.querySelector(".question-content__JfgR"),
+        document.querySelector(".content__u3I1"),
+        document.querySelector("div[class*='question-content']"),
+      ];
+      for (const el of descCandidates) {
+        if (el?.innerText?.length > description.length) {
+          description = el.innerText.trim();
+        }
+      }
+
+      // 🧩 --- SCRAPE USER CODE ---
+      let code = "";
+      // Option 1: Monaco editor textareas (best approach)
+      const textAreas = document.querySelectorAll("textarea");
+      for (const ta of textAreas) {
+        // Find the one inside the Monaco editor
+        if (ta.closest(".monaco-editor")) {
+          code = ta.value;
+          break;
+        }
+      }
+
+      // Option 2: Sometimes LeetCode stores code in data attributes
+      if (!code) {
+        const editor = document.querySelector("[data-mode-id]");
+        if (editor) code = editor.innerText || "";
+      }
+
+      return { title, description, code };
+    },
+  });
+
+  const { title, description, code } = results[0].result || {};
+
+  if (title) {
+    titleEl.textContent = title;
+    descEl.textContent =
+      description?.slice(0, 200) + (description?.length > 200 ? "..." : "");
+    codeEl.textContent =
+      code?.slice(0, 400) + (code?.length > 400 ? "\n... (truncated)" : "");
+  } else {
+    titleEl.textContent = "⚠️ Could not find problem info.";
+  }
 }
-
-// Listen for live failure messages
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.type === 'LC_FAILURE_DETECTED') {
-    chrome.storage.local.set({ lastFailure: message.data }, () => {
-      showBanner(message.data);
-    });
-  }
-});
-
-// Load stored failure on popup open
-chrome.storage.local.get('lastFailure', ({ lastFailure }) => {
-  if (lastFailure) {
-    showBanner(lastFailure);
-  }
-});
-
 
 
