@@ -10,7 +10,7 @@
   "host_permissions": ["https://leetcode.com/problems/*"],
   "content_scripts": [
     {
-      "matches": ["https://leetcode.com/problems/*"],
+      "matches": ["https://leetcode.com/problems/*", "https://leetcode.com/submissions/*"],
       "js": ["feedbackListener.js"],
       "run_at": "document_idle"
     }
