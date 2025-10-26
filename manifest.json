@@ -11,6 +11,6 @@
       "128": "Photo on 10-26-25 at 1.11 PM.jpg"
     }
   },
-  "permissions": ["scripting", "tabs"]
+  "permissions": ["scripting", "tabs"],
   "host_permissions": ["<all_urls>"]
 }
