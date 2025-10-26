@@ -26,7 +26,7 @@
     };
 
     // Log it or store it
-    console.log("🧩 Scraped LeetCode Data:", problemData);
+    console.log("Scraped LeetCode Data:", problemData);
 
     // Save to localStorage (can be replaced with download or API)
     const existing = JSON.parse(localStorage.getItem("leetcodeScrapes") || "[]");
