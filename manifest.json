@@ -3,7 +3,7 @@
   "name": "LeetCode Problem Scraper",
   "version": "1.0",
   "description": "Scrapes and displays LeetCode problem info.",
-  "permissions": ["scripting", "activeTab", "tabs"],
+  "permissions": ["scripting", "activeTab", "tabs", "storage"],
   "background": {
     "service_worker": "background.js"
   },
