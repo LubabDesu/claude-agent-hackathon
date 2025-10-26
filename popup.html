@@ -1,77 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LeetCode Scraper</title>
-    <style>
-      body {
-        font-family: "Segoe UI", Roboto, sans-serif;
-        background: #f9fafb;
-        color: #111;
-        margin: 0;
-        padding: 1rem;
-        width: 320px;
-        text-align: center;
-      }
-      h1 {
-        font-size: 1.1rem;
-        margin-bottom: 0.75rem;
-        color: #2563eb;
-      }
-      button {
-        background: #2563eb;
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: background 0.2s;
-      }
-      button:hover {
-        background: #1e40af;
-      }
-      #title {
-        font-weight: 600;
-        margin-top: 1rem;
-        color: #111;
-      }
-      #description {
-        margin-top: 0.5rem;
-        font-size: 0.85rem;
-        color: #444;
-        text-align: left;
-        max-height: 120px;
-        overflow-y: auto;
-        background: #f3f4f6;
-        padding: 0.5rem;
-        border-radius: 6px;
-      }
-      #code {
-        margin-top: 0.75rem;
-        background: #111827;
-        color: #f9fafb;
-        text-align: left;
-        font-family: monospace;
-        font-size: 0.8rem;
-        padding: 0.75rem;
-        border-radius: 8px;
-        max-height: 200px;
-        overflow-y: auto;
-        white-space: pre-wrap;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>LeetCode Scraper</h1>
-    <button id="refresh">🔄 Refresh</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LeetCode Scraper</title>
+        <style>
+            body {
+                font-family: "Segoe UI", Roboto, sans-serif;
+                background: #f9fafb;
+                color: #111;
+                margin: 0;
+                padding: 1rem;
+                width: 320px;
+                text-align: center;
+            }
+            h1 {
+                font-size: 1.1rem;
+                margin-bottom: 0.75rem;
+                color: #2563eb;
+            }
+            button {
+                background: #2563eb;
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.9rem;
+                transition: background 0.2s;
+            }
+            button:hover {
+                background: #1e40af;
+            }
+            #title {
+                font-weight: 600;
+                margin-top: 1rem;
+                color: #111;
+            }
+            #description {
+                margin-top: 0.5rem;
+                font-size: 0.85rem;
+                color: #444;
+                text-align: left;
+                max-height: 120px;
+                overflow-y: auto;
+                background: #f3f4f6;
+                padding: 0.5rem;
+                border-radius: 6px;
+            }
+            #code {
+                margin-top: 0.75rem;
+                background: #111827;
+                color: #f9fafb;
+                text-align: left;
+                font-family: monospace;
+                font-size: 0.8rem;
+                padding: 0.75rem;
+                border-radius: 8px;
+                max-height: 200px;
+                overflow-y: auto;
+                white-space: pre-wrap;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>LeetCode Scraper</h1>
+        <button id="refresh">🔄 Refresh</button>
 
-    <div id="title">Problem title will appear here...</div>
-    <div id="description"></div>
-    <pre id="code"></pre>
+        <button id="analyze">Analyze with AI</button>
+        <div id="status" style="margin-top: 8px; color: #555"></div>
 
-    <script src="popup.js"></script>
-  </body>
+        <h4 style="margin: 10px 0 4px">AI Result</h4>
+        <div
+            id="result"
+            style="white-space: normal; font: 12px system-ui"
+        ></div>
+
+        <div id="title">Problem title will appear here...</div>
+        <div id="description"></div>
+        <pre id="code"></pre>
+
+        <script src="popup.js"></script>
+    </body>
 </html>
-

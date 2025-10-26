@@ -5,7 +5,11 @@ from config import (
     OPENROUTER_REFERER, OPENROUTER_TITLE
 )
 from utils import extract_json
+import os 
+from dotenv import load_dotenv
+load_dotenv()
 
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY") or "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"
 async def chat_completion(user_content: str, system_prompt: str,
                           max_tokens: int = 400, temperature: float = 0.2) -> Dict[str, Any]:
     if not OPENROUTER_API_KEY:
