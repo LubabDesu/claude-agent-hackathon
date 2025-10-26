@@ -3,74 +3,92 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LeetCode Scraper</title>
+    <title>LeetCode Helper</title>
     <style>
       body {
-        font-family: "Segoe UI", Roboto, sans-serif;
+        font-family: system-ui, -apple-system, sans-serif;
         background: #f9fafb;
-        color: #111;
+        color: #111827;
         margin: 0;
         padding: 1rem;
-        width: 320px;
-        text-align: center;
+        width: 350px;
+        overflow-x: hidden;
       }
       h1 {
-        font-size: 1.1rem;
+        font-size: 1.25rem;
+        font-weight: 700;
         margin-bottom: 0.75rem;
         color: #2563eb;
       }
       button {
-        background: #2563eb;
+        background-color: #2563eb;
         color: white;
         border: none;
         padding: 0.5rem 1rem;
         border-radius: 6px;
         cursor: pointer;
-        font-size: 0.9rem;
-        transition: background 0.2s;
+        font-weight: 600;
       }
       button:hover {
-        background: #1e40af;
+        background-color: #1e40af;
       }
       #title {
+        font-size: 1rem;
         font-weight: 600;
-        margin-top: 1rem;
-        color: #111;
+        margin-bottom: 0.5rem;
       }
       #description {
-        margin-top: 0.5rem;
         font-size: 0.85rem;
-        color: #444;
-        text-align: left;
-        max-height: 120px;
-        overflow-y: auto;
+        color: #374151;
         background: #f3f4f6;
         padding: 0.5rem;
         border-radius: 6px;
-      }
-      #code {
-        margin-top: 0.75rem;
-        background: #111827;
-        color: #f9fafb;
-        text-align: left;
-        font-family: monospace;
-        font-size: 0.8rem;
-        padding: 0.75rem;
-        border-radius: 8px;
-        max-height: 200px;
+        max-height: 120px;
         overflow-y: auto;
         white-space: pre-wrap;
+      }
+      #code {
+        font-family: monospace;
+        background: #111827;
+        color: #e5e7eb;
+        padding: 0.5rem;
+        border-radius: 6px;
+        margin-top: 0.75rem;
+        max-height: 200px;
+        overflow-y: auto;
+        white-space: pre;
+      }
+      #feedback {
+        margin-top: 0.75rem;
+        font-weight: 600;
+        background: #fee2e2;
+        color: #b91c1c;
+        padding: 0.5rem;
+        border-radius: 6px;
+      }
+      #footer {
+        margin-top: 0.75rem;
+        text-align: center;
+        font-size: 0.75rem;
+        color: #6b7280;
       }
     </style>
   </head>
   <body>
-    <h1>LeetCode Scraper</h1>
-    <button id="refresh">🔄 Refresh</button>
+    <h1>🧠 LeetCode Helper</h1>
 
-    <div id="title">Problem title will appear here...</div>
+    <button id="refresh">Fetch Problem</button>
+
+    <div id="title">No problem loaded yet.</div>
+
     <div id="description"></div>
+
     <pre id="code"></pre>
 
-    <script src="popup.js"></script>
+    <div id="feedback"></div>
+
+    <div id="footer">v1.0 — Syntax Feedback Enabled</div>
+
+    <script type="module" src="popup.js"></script>
   </body>
 </html>
