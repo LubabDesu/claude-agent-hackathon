@@ -1,5 +1,3 @@
-// background.js
-
 // Runs whenever a tab is updated (navigated, refreshed, etc.)
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete" && tab.url.includes("leetcode.com/problems/")) {
