@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "LeetCode Problem Scraper",
   "version": "1.0",
-  "description": "Scrapes and displays LeetCode problem info.",
-  "permissions": ["scripting", "activeTab", "tabs", "storage"],
+  "description": "Scrapes LeetCode problem info and listens for failed submissions.",
+  "permissions": ["scripting", "activeTab", "tabs"],
   "background": {
     "service_worker": "background.js"
   },
