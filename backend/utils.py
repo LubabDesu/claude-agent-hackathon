@@ -1,5 +1,6 @@
 import re
 import json
+from typing import Union
 def truncate_text(s: str, limit: int) -> str:
     if not s:
         return s
@@ -7,7 +8,7 @@ def truncate_text(s: str, limit: int) -> str:
         return s
     return s[:limit] + "\n/* …truncated… */"
 
-def extract_json(s: str) -> str:
+def extract_json(s: Union[str, dict]) -> str:
     """
     Extracts the first top-level JSON object from a model response.
     Fallback-friendly for cases where the model adds prose.
