@@ -14,19 +14,11 @@
         width: 280px;
         text-align: center;
       }
-
       h1 {
         font-size: 1.2rem;
         margin-bottom: 0.75rem;
         color: #4f46e5;
       }
-
-      p {
-        font-size: 0.9rem;
-        color: #555;
-        margin-bottom: 1rem;
-      }
-
       button {
         background: #4f46e5;
         color: white;
@@ -37,33 +29,22 @@
         font-size: 0.9rem;
         transition: background 0.2s;
       }
-
       button:hover {
         background: #4338ca;
       }
-
       .result {
         margin-top: 1rem;
         font-weight: 500;
         color: #16a34a;
       }
-
-      footer {
-        margin-top: 1.5rem;
-        font-size: 0.75rem;
-        color: #999;
-      }
     </style>
   </head>
   <body>
-    <h1>Claude Agent Hackathon</h1>
-    <p>Click below to test the extension's functionality.</p>
-    <button id="runButton">Run Action</button>
-
+    <h1>Theme Toggle</h1>
+    <button id="toggleTheme">Toggle Dark/Light</button>
     <div class="result" id="resultText"></div>
-
-    <footer>v1.0 — Demo UI</footer>
 
     <script src="popup.js"></script>
   </body>
 </html>
+
