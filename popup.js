@@ -206,27 +206,27 @@ function renderResult(r) {
         return;
     }
     el.innerHTML = `
-    <div><strong>Status:</strong> ${esc(r.status || "")}</div>
-    <div><strong>Hint:</strong> ${esc(r.hint || "")}</div>
-    <div><strong>Next step:</strong> ${esc(r.next_step || "")}</div>
-    ${
-        r.watch_out?.length
-            ? `<div><strong>Watch out:</strong><ul>${r.watch_out
-                  .map((x) => `<li>${esc(x)}</li>`)
-                  .join("")}</ul></div>`
-            : ""
-    }
-    ${
-        r.try_tests?.length
-            ? `<div><strong>Try tests:</strong><ul>${r.try_tests
-                  .map((x) => `<li><code>${esc(x)}</code></li>`)
-                  .join("")}</ul></div>`
-            : ""
-    }
-    <div style="opacity:.7;margin-top:6px"><small>confidence: ${
-        r.confidence ?? "?"
-    }, next check in ~${r.intervention_after_sec ?? 30}s</small></div>
-  `;
+   <div><strong>Status:</strong> ${esc(r.status || "")}</div>
+   <div><strong>Hint:</strong> ${esc(r.hint || "")}</div>
+   <div><strong>Next step:</strong> ${esc(r.next_step || "")}</div>
+   ${
+       r.watch_out?.length
+           ? `<div><strong>Watch out:</strong><ul>${r.watch_out
+                 .map((x) => `<li>${esc(x)}</li>`)
+                 .join("")}</ul></div>`
+           : ""
+   }
+   ${
+       r.try_tests?.length
+           ? `<div><strong>Try tests:</strong><ul>${r.try_tests
+                 .map((x) => `<li><code>${esc(x)}</code></li>`)
+                 .join("")}</ul></div>`
+           : ""
+   }
+   <div style="opacity:.7;margin-top:6px"><small>confidence: ${
+       r.confidence ?? "?"
+   }, next check in ~${r.intervention_after_sec ?? 30}s</small></div>
+ `;
 }
 
 // Helper functions ;
